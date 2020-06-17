@@ -1,10 +1,6 @@
 # T2JS
 String templates to JS.
 
-## CHANGELOG
-- T2JS Has been moved to its own repository (The NPM package is still there)
-  - https://github.com/KaisarCode/T2JS
-
 ### Install
 ```
 npm install t2js
