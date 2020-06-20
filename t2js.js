@@ -127,10 +127,16 @@ var t2js = (function(){
         out = out.replace(/';,/g, "',");  // fix string in function param
         out = out.replace(/';;/g, "';");  // fix double semicolon
         
+        // Allow tag additions in tpl mode
+        var rx = new RegExp(resc('+ '+tplv+'+='), 'g');
+        out = out.replace(rx, '; '+tplv+'+=');
+        
+        // TPL mode encapsulation
         if (cfg.mode == 'tpl') {
             out = '(function(){var '+tplv+'=\'\'; '+out+' return '+tplv+'})();';
         }
         
+        // Return
         return out;
     }
 

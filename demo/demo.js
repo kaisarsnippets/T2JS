@@ -9,7 +9,7 @@ var tpl = fs.readFileSync('tpl.htm')+'';
 var out = t2js(tpl, { mode: 'tpl' });
 
 // Run JS in vm
-out = vm.runInNewContext(out, { a: 'TEST' });
+out = vm.runInNewContext(out, { a: 'Hello' });
 
 // Write output
 fs.writeFileSync('out.htm', out, { mode: 0o755 });
