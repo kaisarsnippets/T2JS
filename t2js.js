@@ -121,20 +121,24 @@ var t2js = (function(){
 
         });
         
+        // Allow tag concat in tpl mode
+        rx = new RegExp(resc('+ '+tplv+'+='), 'g');
+        out = out.replace(rx, '; '+tplv+'+=');
+        
         // Fix special cases
-        out = out.replace(/';\s?\+/ig, "'+"); // <?+ something +?>
+        out = out.replace(/';\s?\+/ig, "'+"); // tag concat (<?+ v +?>)
         out = out.replace(/';\)/g, "')"); // fix string in function param
         out = out.replace(/';,/g, "',");  // fix string in function param
         out = out.replace(/';;/g, "';");  // fix double semicolon
-        
-        // Allow tag additions in tpl mode
-        var rx = new RegExp(resc('+ '+tplv+'+='), 'g');
-        out = out.replace(rx, '; '+tplv+'+=');
+        out = out.replace(/\+$/g, "");    // fix orphan concat
         
         // TPL mode encapsulation
         if (cfg.mode == 'tpl') {
-            out = '(function(){var '+tplv+'=\'\'; '+out+' return '+tplv+'})();';
+            out = '(function(){\nvar '+tplv+'=\'\'; '+out+' return '+tplv+'})();';
         }
+        
+        // Evaluate code
+        if (cfg.eval) out = eval(out);
         
         // Return
         return out;
