@@ -5,7 +5,7 @@
   "main": "t2js.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/KaisarCode/JSUtils.git"
+    "url": "https://github.com/KaisarCode/T2JS.git"
   },
   "keywords": [
     "string",
@@ -15,7 +15,7 @@
   "author": "KaisarCode",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KaisarCode/JSUtils/issues"
+    "url": "https://github.com/KaisarCode/T2JS/issues"
   },
-  "homepage": "https://github.com/KaisarCode/JSUtils/blob/master/t2js"
+  "homepage": "https://github.com/KaisarCode/T2JS"
 }
