@@ -1,6 +1,6 @@
 {
   "name": "t2js",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "String templates to JS.",
   "main": "t2js.js",
   "repository": {
