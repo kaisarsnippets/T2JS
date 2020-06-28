@@ -137,9 +137,6 @@ var t2js = (function(){
             out = '(function(){\nvar '+tplv+'=\'\'; '+out+' return '+tplv+'})();';
         }
         
-        // Evaluate code
-        if (cfg.eval) out = eval(out);
-        
         // Return
         return out;
     }

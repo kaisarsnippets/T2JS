@@ -69,6 +69,3 @@ After evaluating the code, you will get the following string:
 ```
 <h1>World 3</h1>
 ```
-
-## Advanced configuration
-Check out the code bro.
