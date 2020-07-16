@@ -134,6 +134,8 @@ var t2js = (function(){
         
         // TPL mode encapsulation
         if (cfg.mode == 'tpl') {
+            out = out.replace(/\( _T2JSTPLV_\+=/g, '(');
+            out = out.replace(/return _T2JSTPLV_\+=/g, 'return ');
             out = '(function(){\nvar '+tplv+'=\'\'; '+out+' return '+tplv+'})();';
         }
         
