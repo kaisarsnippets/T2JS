@@ -80,6 +80,7 @@ var t2js = (function(){
             if (htm) {
                 
                 // Replace html blocks
+                htm  = htm.replace(/\\/g, "\\\\");
                 htm  = htm.replace(/'/g, "\\'");
                 rx = new RegExp(nl, 'g');
                 htm  = htm.replace(rx, "\\\n");

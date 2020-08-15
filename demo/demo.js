@@ -10,6 +10,8 @@ var out = t2js(tpl, {
     mode: 'tpl'
 });
 
+fs.writeFileSync('out.js', out, { mode: 0o755 });
+
 // Run JS in vm
 out = vm.runInNewContext(out, { a: 'Hello' });
 
