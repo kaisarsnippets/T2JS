@@ -54,11 +54,6 @@ var t2js = (function(){
         
         var nl = '_T2JSNEWLINE_';
         
-        if (cfg.mini) str = strmin(str);
-        str = str.replace(/\n+/g, nl);
-        str += otg1+otg2;
-        str += otg1+otg2;
-        
         // Includes
         function includes() {
             rx = new RegExp
@@ -82,6 +77,11 @@ var t2js = (function(){
                 includes();
             };
         }; includes();
+        
+        if (cfg.mini) str = strmin(str);
+        str = str.replace(/\n+/g, nl);
+        str += otg1+otg2;
+        str += otg1+otg2;
         
         // Trim consecutive tags
         rx  = resc("+"+otg2+otg1+"+");
@@ -183,7 +183,7 @@ var t2js = (function(){
         }
         
         // Return
-        return out;
+        return out.trim();
     }
 
     // Is defined
