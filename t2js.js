@@ -82,7 +82,10 @@ var t2js = (function(){
             };
         }; includes();
         
-        if (cfg.mini) str = strmin(str);
+        if (cfg.mini) {
+            str = rmcomm(str);
+            str = strmin(str);
+        }
         str = str.replace(/\n+/g, nl);
         str += otg1+otg2;
         str += otg1+otg2;
@@ -206,6 +209,18 @@ var t2js = (function(){
         str = str.trim();
         return str;
     }
+    
+    // Remove comments
+    function rmcomm(str, remove_html_comments) {
+        remove_html_comments = remove_html_comments || false;
+        var rx = /\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm;
+        str = str.replace(rx, '');
+        if (remove_html_comments) {
+            rx = /<!--[\s\S]*?-->/gm;
+            str = str.replace(rx, '');
+        }
+        return str;
+    };
     
     // Export module
     try {(typeof process !== 'undefined') &&
