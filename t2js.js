@@ -63,15 +63,19 @@ var t2js = (function(){
                 m.forEach(function(a){
                     var rx;
                     var b = '';
-                    rx = new RegExp('^'+it1,'g');
+                    rx = new RegExp('^'+it1,'gim');
                     b = a.replace(rx, '');
-                    rx = new RegExp(it2+'$','g');
+                    rx = new RegExp(it2+'$','gim');
                     b = b.replace(rx, '');
                     b = b.replace(/\n/gm, '');
                     b = b.replace(/\\\s/gm, '');
                     b = b.replace(/\\'/gm, "'");
                     if (isdef(cfg.tpls[b])) {
                         str = str.replace(a, cfg.tpls[b], str);
+                    } else {
+                        console.log(b+' Not found');
+                        console.log('Available:', Object.keys(cfg.tpls));
+                        str = str.replace(a, '', str);
                     }
                 });
                 includes();
@@ -131,9 +135,9 @@ var t2js = (function(){
                 if (m) { m.forEach(function(a){
                     var rx;
                     var b = '';
-                    rx = new RegExp('^'+vt1,'g');
+                    rx = new RegExp('^'+vt1,'gim');
                     b = a.replace(rx, '');
-                    rx = new RegExp(vt2+'$','g');
+                    rx = new RegExp(vt2+'$','gim');
                     b = b.replace(rx, '');
                     b = b.replace(/\n/gm, '');
                     b = b.replace(/\\\s/gm, '');
