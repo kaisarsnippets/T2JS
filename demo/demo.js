@@ -9,9 +9,9 @@ var tpl = fs.readFileSync('tpl.htm')+'';
 var out = t2js(tpl, {
     mode: 'tpl',
     tpls: {
-        tpl1: '<? var pepe="papa"; ?>@{tpl2}',
-        tpl2: '${pepe} @{tpl3}',
-        tpl3: 'lolo',
+        tpl1: '<? var hello="world"; ?>@{tpl2}',
+        tpl2: '${hello} @{tpl3}',
+        tpl3: 'included',
     }
 });
 
