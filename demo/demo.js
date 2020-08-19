@@ -7,7 +7,12 @@ var tpl = fs.readFileSync('tpl.htm')+'';
 
 // Parse
 var out = t2js(tpl, {
-    mode: 'tpl'
+    mode: 'tpl',
+    tpls: {
+        tpl1: '<? var pepe="papa"; ?>@{tpl2}',
+        tpl2: '${pepe} @{tpl3}',
+        tpl3: 'lolo',
+    }
 });
 
 fs.writeFileSync('out.js', out, { mode: 0o755 });

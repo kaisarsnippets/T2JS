@@ -24,43 +24,80 @@ var t2js = (function(){
         // Config
         cfg = cfg || {};
         cfg.mini = cfg.mini || false;
-        cfg.otag = cfg.otag || '<?';
-        cfg.ctag = cfg.ctag || '?>';
+        cfg.otag = cfg.jtag || ['<?', '?>'];
+        cfg.vtag = cfg.vtag || ['${', '}'];
+        cfg.itag = cfg.itag || ['@{', '}'];
         cfg.mode = cfg.mode || 'raw';
+        cfg.tpls = cfg.tpls || {};
         var tplv = '_T2JSTPLV_';
         
         // Inner vars
-        var otg = cfg.otag;
-        var ctg = cfg.ctag;
-        var ot  = resc(otg);
-        var ct  = resc(ctg);
+        var otg1 = cfg.otag[0];
+        var otg2 = cfg.otag[1];
+        var ot1  = resc(otg1);
+        var ot2  = resc(otg2);
+        
+        var vtg1 = cfg.vtag[0];
+        var vtg2 = cfg.vtag[1];
+        var vt1  = resc(vtg1);
+        var vt2  = resc(vtg2);
+        
+        var itg1 = cfg.itag[0];
+        var itg2 = cfg.itag[1];
+        var it1  = resc(itg1);
+        var it2  = resc(itg2);
         
         // Prepare output
         var out = '';
         var rx  = '';
         var rxs = '';
         
-        var nl = resc('_T2JSNEWLINE_');
+        var nl = '_T2JSNEWLINE_';
+        
         if (cfg.mini) str = strmin(str);
         str = str.replace(/\n+/g, nl);
-        str += otg+ctg;
-        str += otg+ctg;
+        str += otg1+otg2;
+        str += otg1+otg2;
+        
+        // Includes
+        function includes() {
+            rx = new RegExp
+            (it1+'(.*?)'+it2,'gim');
+            var m = str.match(rx);
+            if (m) {
+                m.forEach(function(a){
+                    var rx;
+                    var b = '';
+                    rx = new RegExp('^'+it1,'g');
+                    b = a.replace(rx, '');
+                    rx = new RegExp(it2+'$','g');
+                    b = b.replace(rx, '');
+                    b = b.replace(/\n/gm, '');
+                    b = b.replace(/\\\s/gm, '');
+                    b = b.replace(/\\'/gm, "'");
+                    if (isdef(cfg.tpls[b])) {
+                        str = str.replace(a, cfg.tpls[b], str);
+                    }
+                });
+                includes();
+            };
+        }; includes();
         
         // Trim consecutive tags
-        rx  = resc("+"+ctg+otg+"+");
+        rx  = resc("+"+otg2+otg1+"+");
         rx  = new RegExp(rx, 'gm');
         str = str.replace(rx, '+');
         
         // Trim spaced consecutive tags
-        rx  = resc("+"+ctg+" "+otg+"+");
+        rx  = resc("+"+otg2+" "+otg1+"+");
         rx  = new RegExp(rx, 'gm');
         str = str.replace(rx, "+' '+");
         
         // JS tags regex
         rxs = '';
-        rxs += resc(otg);
+        rxs += resc(otg1);
         rxs += '(.+?)';
-        rxs += resc(ctg);
+        rxs += resc(otg2);
         rx = new RegExp(rxs, 'gm');
         
         // Get positions of JS tags
@@ -88,11 +125,16 @@ var t2js = (function(){
                 htm  = htm.trim();
                 
                 // String literals
-                var rx = /\${(.*?)}/gim;
+                var rx = new RegExp
+                (vt1+'(.*?)'+vt2,'gim');
                 var m = htm.match(rx);
                 if (m) { m.forEach(function(a){
-                    var b = a.replace(/^\${/g, '');
-                    b = b.replace(/}$/g, '');
+                    var rx;
+                    var b = '';
+                    rx = new RegExp('^'+vt1,'g');
+                    b = a.replace(rx, '');
+                    rx = new RegExp(vt2+'$','g');
+                    b = b.replace(rx, '');
                     b = b.replace(/\n/gm, '');
                     b = b.replace(/\\\s/gm, '');
                     b = b.replace(/\\'/gm, "'");
@@ -111,8 +153,8 @@ var t2js = (function(){
             // JS blocks
             var js = str.substring(p[0], p[1]);
             if (js) {
-                js = js.replace(new RegExp(ot, 'ig'), '');
-                js = js.replace(new RegExp(ct, 'ig'), '');
+                js = js.replace(new RegExp(ot1, 'ig'), '');
+                js = js.replace(new RegExp(ot2, 'ig'), '');
                 js = js.trim();
                 rx = new RegExp(nl, 'g');
                 js  = js.replace(rx, "\n");
