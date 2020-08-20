@@ -5,8 +5,9 @@ String templates to JS.
 ## Params:
 @str: [string] Template string
 @cfg: [object] Configuration object
-    - @otag: [string]  Open tag (dft: '<?')
-    - @ctag: [string]  Close tag (dft: '?>')
+    - @otag: [array]  Open tag (dft: ['<?', '?>'])
+    - @vtag: [array]  Vars tag (dft: ['${', '}'])
+    - @itag: [array]  Incl tag (dft: ['@{', '}'])
     - @mini: [boolean] Minify output (dft: false)
     - @mode: [string] Switch parse mode (dft: 'raw')
 */
