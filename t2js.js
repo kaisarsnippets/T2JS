@@ -178,6 +178,7 @@ var t2js = (function(){
         
         // Fix special cases
         out = out.replace(/';\s?\+/ig, "'+"); // tag concat (<?+ v +?>)
+        out = out.replace(/;' ';/g, ";"); // fix orphan white space
         out = out.replace(/';\)/g, "')"); // fix string in function param
         out = out.replace(/';,/g, "',");  // fix string in function param
         out = out.replace(/';;/g, "';");  // fix double semicolon
