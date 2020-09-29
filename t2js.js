@@ -25,7 +25,7 @@ var t2js = (function(){
         // Config
         cfg = cfg || {};
         cfg.mini = cfg.mini || false;
-        cfg.otag = cfg.jtag || ['<?', '?>'];
+        cfg.otag = cfg.otag || ['<?', '?>'];
         cfg.vtag = cfg.vtag || ['${', '}'];
         cfg.itag = cfg.itag || ['@{', '}'];
         cfg.mode = cfg.mode || 'raw';
