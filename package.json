@@ -1,8 +1,8 @@
 {
   "name": "t2js",
-  "version": "2.2.6",
+  "version": "3.0.0",
   "description": "String templates to JS.",
-  "main": "t2js.js",
+  "main": "t2.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/KaisarCode/T2JS.git"

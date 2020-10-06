@@ -1,14 +1,4 @@
-# T2JS
-String templates to JS.
-
-### Install
-```
-npm install t2js
-```
-
-### Use
-```js
-var t2js = require('t2js');
+var t2js = require('./index');
 str = t2js('<?@{tp1}?>', {
     incl: {
         tp1: 'var a = 1;\
@@ -17,4 +7,3 @@ str = t2js('<?@{tp1}?>', {
     }
 });
 console.log(str);
-```

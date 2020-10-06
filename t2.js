@@ -1,72 +1,71 @@
 // T2JS
 // String templates to JS
 function T2JS(str, cfg) {
+    
+    // IO String
     str = str || '';
     str = str+'';
     
+    // Config
     cfg = cfg || {};
-    cfg.mini = cfg.mini || false;
+    cfg.incl = cfg.incl || {};
     cfg.jtag = cfg.jtag || {};
-    cfg.jtag = cfg.jtag.open = '<?';
-    cfg.jtag = cfg.jtag.close = '?>';
-    cfg.ptag = cfg.ptag || {};
-    cfg.ptag = cfg.ptag.open = '${';
-    cfg.ptag = cfg.ptag.close = '}';
+    cfg.stag = cfg.stag || {};
     cfg.itag = cfg.itag || {};
-    cfg.itag = cfg.itag.open = '@{';
-    cfg.itag = cfg.itag.close = '}';
-    cfg.tpls = cfg.tpls || {};
     
-    var jt1 = cfg.jtag.open;
-    var jt1r = resc(jt1);
-    var jt2 = cfg.jtag.close;
-    var jt2r = resc(jt2);
-    
-    var pt1 = cfg.ptag.open;
-    var pt1r = resc(pt1);
-    var pt2 = cfg.ptag.close;
-    var pt2r = resc(pt2);
-    
-    var it1 = cfg.itag.open;
-    var it1r = resc(it1);
-    var it2 = cfg.itag.close;
-    var it2r = resc(it2);
-    
-    var rx;
-    var rxs;
-    var out;
-    var tv = '_T2JSTPLV_';
-    var nl = '_T2JSNEWLINE_';
-    
-    
-    /*** Helper functions ******************************************* */
-    
-    // Is defined
-    function isdef(v) {
-        return typeof v !== 'undefined';
-    };
-    
-    // Regular expression escape
-    function resc(str = '') {
-        var rx = /[|\\{}()[\]^$+*?.-]/g;
-        return str.replace(rx, '\\$&');
-    };
-    
-    // Minify
-    function strmin(str) {
-        str = str.replace(/\s+/g, ' ');
-        str = str.trim(); return str;
-    };
+    // Tag definitions
+    var j1 = cfg.jtag.open  || '<?';
+    var j2 = cfg.jtag.close || '?>';
+    var s1 = cfg.stag.open  || '${';
+    var s2 = cfg.stag.close || '}';
+    var i1 = cfg.itag.open  || '@{';
+    var i2 = cfg.itag.close || '}';
     
     // Remove comments
-    function rmcomm(str) {
-        var rx = /\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm;
-        str = str.replace(rx, ''); return str;
+    str = str.replace
+    (/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '');
+    
+    // Includes
+    str = tfn(str, i1, i2, function(c){
+    return cfg.incl[c] || ''; });
+    
+    // Separate strings
+    str = j2+str+j1;
+    str = tfn(str, j2, j1, function(c){
+    return "'"+c+"'"; });
+    
+    // String literals
+    str = tfn(str, s1, s2, function(c){
+    return "'+("+c+")+'"; });
+    
+    // Minify and cleanup
+    str = str.replace(/\s+/gm,' ');
+    str = str.trim();
+    str = str.replace(/''/g,'');
+    str = str.replace(/\+;/g,';');
+    
+    // Tag replacer
+    function tfn(str, tg1, tg2, fun) {
+        // escape regex chars
+        var rx = /[|\\{}()[\]^$+*?.-]/g;
+        var t1 = tg1.replace(rx, '\\$&');
+        var t2 = tg2.replace(rx, '\\$&');
+        // match tags
+        rx = new RegExp(t1+'(.*?)'+t2,'gm');
+        var m = str.match(rx);
+        // replace tags
+        if (m) { m.forEach(function(a){
+            var b = '';
+            rx = new RegExp('^'+t1,'gim');
+            b = a.replace(rx, '');
+            rx = new RegExp(t2+'$','gim');
+            b = b.replace(rx, '');
+            str = str.replace(a, fun(b), str);
+        }); str = tfn(str, tg1, tg2, fun);  };
+        // return
+        return str;
     };
     
-    /*** Export module ********************************************** */
-    try {(typeof process !== 'undefined') &&
-    (typeof process.versions !== 'undefined') &&
-    (typeof process.versions.node !== 'undefined') ?
-    module.exports = t2js : true; } catch (err) {};
-}
+    // OUT
+    return str;
+};
