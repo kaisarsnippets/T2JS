@@ -1,10 +1,8 @@
 /**
- * T2JS - String templates to JS
- * [NodeJS only]
+ * T2JS - [NodeJS] String templates to JS
  * 
  * @param (string) - str: Template string
  * @param (object) - cfg: Configuration object
- * @param (function) - tagfun: Tag replacer function (kc-tagfun)
  * */
 var tagfun = require('kc-tagfun');
 var regesc = require('kc-regesc');
@@ -34,7 +32,7 @@ module.exports = function(str, cfg) {
     
     // Includes
     str = tagfun(str, i1, i2, function(c){
-    return cfg.incl[c] || ''; });
+    return cfg.incl[c] || ''; });   
     
     // Avoid consecutive js blocks
     var j1e = regesc(j1);
@@ -61,7 +59,7 @@ module.exports = function(str, cfg) {
     str = tagfun(str, "''+", "+''", function(c){
     return "\\''+"+c+"+'\\'"; });
     
-    // Minify
+    // Cleanup
     if (cfg.mini) str = rmcomm(str);
     if (cfg.mini) str = strmin(str);
     str = str.trim();
