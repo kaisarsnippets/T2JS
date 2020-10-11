@@ -30,6 +30,9 @@ module.exports = function(str, cfg) {
     var i1 = cfg.itag.open  || '@{';
     var i2 = cfg.itag.close || '}';
     
+    // Force close tags
+    str = str+j1+j2;
+    
     // Includes
     str = tagfun(str, i1, i2, function(c){
     return cfg.incl[c] || ''; });   
