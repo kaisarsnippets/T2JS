@@ -1,5 +1,5 @@
 # T2JS
-String templates to JS.
+[NodeJS] String templates to JS.
 
 ### Install
 ```
