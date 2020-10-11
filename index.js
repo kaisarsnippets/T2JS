@@ -44,6 +44,13 @@ module.exports = function(str, cfg) {
     rx = new RegExp(rx, 'gm');
     str = str.replace(rx, '');
     
+    // Avoid consecutive literals
+    var s1e = regesc(s1);
+    var s2e = regesc(s2);
+    var rx = s2e+'[\\s]*?'+s1e;
+    rx = new RegExp(rx, 'gm');
+    str = str.replace(rx, '+""+');
+    
     // Parse JS blocks
     str = tagfun(str, j2, j1, function(c){
     cfg.mini?
