@@ -1,7 +1,7 @@
 {
   "name": "t2js",
   "version": "3.0.1",
-  "description": "String templates to JS.",
+  "description": "[NodeJS] String templates to JS.",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -14,7 +14,9 @@
   },
   "homepage": "https://github.com/KaisarCode/T2JS#readme",
   "dependencies": {
-    "fun2mod": "^1.0.3",
-    "kc-tagfun": "^1.0.9"
+    "kc-regesc": "^1.0.3",
+    "kc-rmcomm": "^1.0.8",
+    "kc-strmin": "^1.0.2",
+    "kc-tagfun": "^1.0.12"
   }
 }
