@@ -36,9 +36,6 @@ module.exports = function(str, cfg) {
     str = tagfun(str, i1, i2, function(c){
     return cfg.incl[c] || ''; });
     
-    // Remove comments
-    str = rmcomm(str);
-    
     // Avoid consecutive js blocks
     var j1e = regesc(j1);
     var j2e = regesc(j2);
@@ -64,7 +61,8 @@ module.exports = function(str, cfg) {
     str = tagfun(str, "''+", "+''", function(c){
     return "\\''+"+c+"+'\\'"; });
     
-    // Cleanup
+    // Minify
+    if (cfg.mini) str = rmcomm(str);
     if (cfg.mini) str = strmin(str);
     str = str.trim();
     
