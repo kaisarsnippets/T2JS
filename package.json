@@ -2,20 +2,19 @@
   "name": "t2js",
   "version": "3.0.0",
   "description": "String templates to JS.",
-  "main": "t2.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/KaisarCode/T2JS.git"
+    "url": "git+https://github.com/KaisarCode/T2JS.git"
   },
-  "keywords": [
-    "string",
-    "template",
-    "to js"
-  ],
   "author": "KaisarCode",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/KaisarCode/T2JS/issues"
   },
-  "homepage": "https://github.com/KaisarCode/T2JS"
+  "homepage": "https://github.com/KaisarCode/T2JS#readme",
+  "dependencies": {
+    "fun2mod": "^1.0.3",
+    "kc-tagfun": "^1.0.9"
+  }
 }

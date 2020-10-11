@@ -1,7 +1,7 @@
-// Export module
-var fl = './t2.js';
-var fs = require('fs');
-var vm = require('vm');
-var run = vm.runInThisContext;
-run(fs.readFileSync(fl)+'');
-module.exports = T2JS;
+var f2m = require('fun2mod');
+var tfn = require('kc-tagfun');
+var mod = f2m(__dirname+'/t2.js', 'T2JS');
+module.exports = function(str, cfg){
+    cfg = cfg || null;
+    return mod(str, cfg, tfn);
+}
