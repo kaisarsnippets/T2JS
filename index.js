@@ -25,24 +25,28 @@ module.exports = function(str, cfg) {
     var s2 = cfg.stag.close || '}';
     var i1 = cfg.itag.open  || '@{';
     var i2 = cfg.itag.close || '}';
+    var j1e = regesc(j1);
+    var j2e = regesc(j2);
+    var s1e = regesc(s1);
+    var s2e = regesc(s2);
     
     // Force close tags
     str = str+j1+j2;
     
     // Includes
     str = tagfun(str, i1, i2, function(c){
-    return cfg.incl[c] || ''; });   
+    return cfg.incl[c] || ''; });
+    
+    // Tag shortcuts
+    rx = new RegExp('r'+j2e, 'gm');
+    str = str.replace(rx, 'return '+j2);
     
     // Avoid consecutive js blocks
-    var j1e = regesc(j1);
-    var j2e = regesc(j2);
     rx = j2e+'[\\s]*?'+j1e;
     rx = new RegExp(rx, 'gm');
     str = str.replace(rx, '');
     
     // Avoid consecutive literals
-    var s1e = regesc(s1);
-    var s2e = regesc(s2);
     rx = s2e+'[\\s]*?'+s1e;
     rx = new RegExp(rx, 'gm');
     str = str.replace(rx, '+""+');
