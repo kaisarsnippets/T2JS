@@ -4,7 +4,7 @@ var regesc = require('kc-regesc');
 var rmcomm = require('kc-rmcomm');
 var strmin = require('kc-strmin');
 module.exports = function(str, cfg) {
-    var rx;
+    var rx; var outv = '_T2OUT_';
     
     // IO String
     str = str || '';
@@ -38,8 +38,10 @@ module.exports = function(str, cfg) {
     return cfg.incl[c] || ''; });
     
     // Tag shortcuts
-    rx = new RegExp('r'+j2e, 'gm');
+    rx = new RegExp('R'+j2e, 'gm');
     str = str.replace(rx, 'return '+j2);
+    rx = new RegExp('O'+j2e, 'gm');
+    str = str.replace(rx, outv+'+= '+j2);
     
     // Avoid consecutive js blocks
     rx = j2e+'[\\s]*?'+j1e;
@@ -56,10 +58,10 @@ module.exports = function(str, cfg) {
         cfg.mini?
         c = c.replace(/\n/gm, ''):
         c = c.replace(/\n/gm, '\\n');
-        
-        // Parse string literals
         c = c.replace(/'/gm, "\\'");
+        // Parse string literals
         c = tagfun(c, s1, s2, function(c){
+            c = c.replace(/\\'/gm, "'");
             return "'+("+c+")+'"
         }); return "'"+strmin(c)+"'";
     });
@@ -68,6 +70,11 @@ module.exports = function(str, cfg) {
     str = tagfun(str, j1, j2, function(c){
         return c;
     });
+    
+    // Encapsulate code
+    str = "var "+outv+"='';\n\n"+str;
+    str = str+" return "+outv+";";
+    str = "(function(){\n"+str+"\n})();";
     
     // Cleanup
     if (cfg.mini) str = rmcomm(str);
