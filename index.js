@@ -63,7 +63,7 @@ module.exports = function(str, cfg) {
         c = tagfun(c, s1, s2, function(c){
             c = c.replace(/\\'/gm, "'");
             return "'+("+c+")+'"
-        }); return "'"+strmin(c)+"'";
+        }); return "'"+strmin(c)+"';";
     });
     
     // Remove first and last tags
@@ -81,6 +81,8 @@ module.exports = function(str, cfg) {
     if (cfg.mini) str = strmin(str);
     str = str.trim();
     str = str.replace(/\+''/g,'');
+    str = str.replace(/;;/g,';');
+    str = str.replace(/;\+/g,'+');
     
     // OUT
     return str;
