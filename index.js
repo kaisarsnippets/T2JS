@@ -27,8 +27,6 @@ module.exports = function(str, cfg) {
     var i2 = cfg.itag.close || '}';
     var j1e = regesc(j1);
     var j2e = regesc(j2);
-    var s1e = regesc(s1);
-    var s2e = regesc(s2);
     
     // Force close tags
     str = str+j1+j2;
@@ -47,11 +45,6 @@ module.exports = function(str, cfg) {
     rx = j2e+'[\\s]*?'+j1e;
     rx = new RegExp(rx, 'gm');
     str = str.replace(rx, '');
-    
-    // Avoid consecutive literals
-    rx = s2e+'[\\s]*?'+s1e;
-    rx = new RegExp(rx, 'gm');
-    str = str.replace(rx, '+""+');
     
     // Parse JS blocks
     str = tagfun(str, j2, j1, function(c){
