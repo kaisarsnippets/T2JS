@@ -13,6 +13,7 @@ module.exports = function(str, cfg) {
     // Config
     cfg = cfg || {};
     cfg.mini = cfg.mini || false;
+    cfg.mode = cfg.mode || 'tpl';
     cfg.incl = cfg.incl || {};
     cfg.jtag = cfg.jtag || {};
     cfg.stag = cfg.stag || {};
@@ -38,8 +39,9 @@ module.exports = function(str, cfg) {
     // Tag shortcuts
     rx = new RegExp('R'+j2e, 'gm');
     str = str.replace(rx, 'return '+j2);
+    if (cfg.mode == 'tpl') {
     rx = new RegExp('O'+j2e, 'gm');
-    str = str.replace(rx, outv+'+= '+j2);
+    str = str.replace(rx, outv+'+= '+j2); }
     
     // Avoid consecutive js blocks
     rx = j2e+'[\\s]*?'+j1e;
@@ -65,8 +67,9 @@ module.exports = function(str, cfg) {
     });
     
     // Encapsulate code
+    if (cfg.mode == 'tpl') {
     str = "var "+outv+"='';\n\n"+str;
-    str = str+" return "+outv+";";
+    str = str+" return "+outv+";"; }
     str = "(function(){\n"+str+"\n})();";
     
     // Cleanup
