@@ -54,16 +54,18 @@ module.exports = function(str, cfg) {
         c = c.replace(/\n/gm, ''):
         c = c.replace(/\n/gm, '\\n');
         c = c.replace(/'/gm, "\\'");
-        // Parse string literals
-        c = tagfun(c, s1, s2, function(c){
-            c = c.replace(/\\'/gm, "'");
-            return "'+("+c+")+'"
-        }); return "'"+strmin(c)+"';";
+        return "'"+strmin(c)+"';";
     });
     
     // Remove first and last tags
     str = tagfun(str, j1, j2, function(c){
         return c;
+    });
+    
+    // Parse string literals
+    str = tagfun(str, s1, s2, function(c){
+        c = c.replace(/\\'/gm, "'");
+        return "'+("+c+")+'"
     });
     
     // Encapsulate code
