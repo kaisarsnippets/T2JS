@@ -79,6 +79,7 @@ module.exports = function(str, cfg) {
     str = str.replace(/\+''/g,'');
     str = str.replace(/;;/g,';');
     str = str.replace(/;\+/g,'+');
+    str = str.replace(/';\)/g,"')");
     
     // OUT
     return str;
