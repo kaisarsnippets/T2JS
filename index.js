@@ -12,20 +12,20 @@ module.exports = function(str, cfg) {
     
     // Config
     cfg = cfg || {};
-    cfg.mini = cfg.mini || false;
-    cfg.mode = cfg.mode || 'tpl';
-    cfg.incl = cfg.incl || {};
-    cfg.jtag = cfg.jtag || {};
-    cfg.stag = cfg.stag || {};
-    cfg.itag = cfg.itag || {};
+    cfg.min = cfg.min || false;
+    cfg.mod = cfg.mod || 'tpl';
+    cfg.inc = cfg.inc || {};
+    cfg.jtg = cfg.jtg || {};
+    cfg.stg = cfg.stg || {};
+    cfg.itg = cfg.itg || {};
     
     // Tag definitions
-    var j1 = cfg.jtag.open  || '<?';
-    var j2 = cfg.jtag.close || '?>';
-    var s1 = cfg.stag.open  || '${';
-    var s2 = cfg.stag.close || '}';
-    var i1 = cfg.itag.open  || '@{';
-    var i2 = cfg.itag.close || '}';
+    var j1 = cfg.jtg.o || '<?';
+    var j2 = cfg.jtg.c || '?>';
+    var s1 = cfg.stg.o || '${';
+    var s2 = cfg.stg.c || '}';
+    var i1 = cfg.itg.o || '@{';
+    var i2 = cfg.itg.c || '}';
     var j1e = regesc(j1);
     var j2e = regesc(j2);
     
@@ -34,12 +34,12 @@ module.exports = function(str, cfg) {
     
     // Includes
     str = tagfun(str, i1, i2, function(c){
-    return cfg.incl[c] || ''; });
+    return cfg.inc[c] || ''; });
     
     // Tag shortcuts
     rx = new RegExp('R'+j2e, 'gm');
     str = str.replace(rx, 'return '+j2);
-    if (cfg.mode == 'tpl') {
+    if (cfg.mod == 'tpl') {
     rx = new RegExp('O'+j2e, 'gm');
     str = str.replace(rx, outv+'+= '+j2); }
     
@@ -50,7 +50,7 @@ module.exports = function(str, cfg) {
     
     // Parse JS blocks
     str = tagfun(str, j2, j1, function(c){
-        cfg.mini?
+        cfg.min?
         c = c.replace(/\n/gm, ''):
         c = c.replace(/\n/gm, '\\n');
         c = c.replace(/'/gm, "\\'");
@@ -69,14 +69,14 @@ module.exports = function(str, cfg) {
     });
     
     // Encapsulate code
-    if (cfg.mode == 'tpl') {
+    if (cfg.mod == 'tpl') {
     str = "var "+outv+"='';\n\n"+str;
     str = str+" return "+outv+";"; }
     str = "(function(){\n"+str+"\n})();";
     
     // Cleanup
-    if (cfg.mini) str = rmcomm(str);
-    if (cfg.mini) str = strmin(str);
+    if (cfg.min) str = rmcomm(str);
+    if (cfg.min) str = strmin(str);
     str = str.trim();
     str = str.replace(/\+''/g,'');
     str = str.replace(/;;/g,';');
