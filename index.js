@@ -14,27 +14,19 @@ module.exports = function(str, cfg) {
     cfg = cfg || {};
     cfg.min = cfg.min || false;
     cfg.mod = cfg.mod || 'tpl';
-    cfg.inc = cfg.inc || {};
     cfg.jtg = cfg.jtg || {};
     cfg.stg = cfg.stg || {};
-    cfg.itg = cfg.itg || {};
     
     // Tag definitions
     var j1 = cfg.jtg.o || '<?';
     var j2 = cfg.jtg.c || '?>';
     var s1 = cfg.stg.o || '${';
     var s2 = cfg.stg.c || '}';
-    var i1 = cfg.itg.o || '@{';
-    var i2 = cfg.itg.c || '}';
     var j1e = regesc(j1);
     var j2e = regesc(j2);
     
     // Force close tags
     str = str+j1+j2;
-    
-    // Includes
-    str = tagfun(str, i1, i2, function(c){
-    return cfg.inc[c] || ''; });
     
     // Tag shortcuts
     rx = new RegExp('R'+j2e, 'gm');
