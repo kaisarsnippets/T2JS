@@ -1,13 +1,3 @@
-# T2JS
-[NodeJS] String templates to JS.
-
-### Install
-```
-npm install t2js
-```
-
-### Usage
-```js
 var t2js = require('./index');
 
 var tpl = `
@@ -31,4 +21,3 @@ str = t2js(tpl, {
 });
 
 console.log(str);
-```
