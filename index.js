@@ -56,6 +56,7 @@ module.exports = function(str, cfg) {
     
     // Parse string literals
     str = tagfun(str, s1, s2, function(c){
+        c = c.replace(/\\n/gm, "");
         c = c.replace(/\\'/gm, "'");
         return "'+("+c+")+'"
     });
