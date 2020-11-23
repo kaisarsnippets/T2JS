@@ -14,10 +14,8 @@ function printMsg(msg) {R?>
 </div>
 `;
 str = t2js(tpl, {
-    min: true,
-    cfg: {
-        stg:{ o:'{{', c:'}}' }
-    }
+    st1: '{{',
+    st2: '}}'
 });
 
 console.log(str);

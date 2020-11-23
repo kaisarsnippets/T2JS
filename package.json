@@ -14,9 +14,6 @@
   },
   "homepage": "https://github.com/KaisarCode/T2JS#readme",
   "dependencies": {
-    "kc-regesc": "^1.0.3",
-    "kc-rmcomm": "^1.0.8",
-    "kc-strmin": "^1.0.2",
-    "kc-tagfun": "^1.1.0"
+    "fun2mod": "^1.0.3"
   }
 }

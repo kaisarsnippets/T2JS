@@ -8,7 +8,7 @@ npm install t2js
 
 ### Usage
 ```js
-var t2js = require('./index');
+var t2js = require('t2js');
 
 var tpl = `
 <?
@@ -24,10 +24,8 @@ function printMsg(msg) {R?>
 </div>
 `;
 str = t2js(tpl, {
-    min: true,
-    cfg: {
-        stg:{ o:'{{', c:'}}' }
-    }
+    st1: '{{',
+    st2: '}}'
 });
 
 console.log(str);
