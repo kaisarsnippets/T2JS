@@ -1,6 +1,6 @@
 {
   "name": "t2js",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "[NodeJS] String templates to JS.",
   "main": "index.js",
   "repository": {
