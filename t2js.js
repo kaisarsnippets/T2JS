@@ -74,6 +74,7 @@ var t2js = (function(){
         // Cleanup
         str = str.replace(/\+''/g,'');
         str = str.replace(/;;/g,';');
+        str = str.replace(/;:/g,":");
         str = str.replace(/;\+/g,'+');
         str = str.replace(/';\)/g,"')");
         
