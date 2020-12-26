@@ -5,8 +5,7 @@ var tpl = `
 var dummy = 'lorem ipsum';
 function printMsg(msg) {R?>
     <strong>{{msg}}</strong>
-<?}
-?>
+<?}?>
 
 <?O?>
 <div>

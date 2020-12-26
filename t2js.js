@@ -33,6 +33,9 @@ var t2js = (function(){
         var j2e = rgs(j2);
         var ov = '_T2OUT';
         
+        // Force open tag
+        str = j1+str;
+        
         // Force close tags
         str = str+j1+j2;
         
@@ -45,6 +48,14 @@ var t2js = (function(){
         str = str.replace(rx, ov+'+= '+j2);
         
         // Avoid consecutive js
+        rx = j1e+'[\\s]*?'+j1e;
+        rx = new RegExp(rx, 'gm');
+        str = str.replace(rx, j1);
+        
+        rx = j2e+'[\\s]*?'+j2e;
+        rx = new RegExp(rx, 'gm');
+        str = str.replace(rx, j2);
+        
         rx = j2e+'[\\s]*?'+j1e;
         rx = new RegExp(rx, 'gm');
         str = str.replace(rx, '');
