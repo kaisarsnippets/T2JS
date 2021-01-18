@@ -9,7 +9,7 @@ var t2js = (function(){
     // Tag replacer
     function tfn(st, tg1, tg2, fun) {
     t1 = rgs(tg1); t2 = rgs(tg2);
-    rx = t1+'([\\s\\S]*?)'+t2;
+    var rx = t1+'([\\s\\S]*?)'+t2;
     rx = new RegExp(rx,'gim');
     return st.replace(rx,
     function(a,c){return fun(c)})}
@@ -21,8 +21,8 @@ var t2js = (function(){
         opt = opt || {};
         opt.j1 = opt.j1 || '<?';
         opt.j2 = opt.j2 || '?>';
-        opt.s1 = opt.s1 || '${';
-        opt.s2 = opt.s2 || '}';
+        opt.s1 = opt.s1 || '{{';
+        opt.s2 = opt.s2 || '}}';
         
         // Define vars
         var j1 = opt.j1;
@@ -33,30 +33,31 @@ var t2js = (function(){
         var j2e = rgs(j2);
         var ov = '_T2OUT';
         
-        // Force close tags
-        str = str+j1+j2;
+        // Force trailing tags
+        str = j1+j2+str+j1+j2;
         
-        // Return shortcut
-        rx = new RegExp('R'+j2e, 'gm');
-        str = str.replace(rx, 'return '+j2);
+        // Return interpolated string
+        str = tfn(str, '='+j2, j1, function(c){
+            c = c.replace(/\n/gm, '\\n');
+            c = c.replace(/'/gm, "\\'");
+            return "return '"+c+"';";
+        });
         
-        // Output shortcut
-        rx = new RegExp('O'+j2e, 'gm');
-        str = str.replace(rx, ov+'+= '+j2);
-        
-        // Avoid consecutive js
-        rx = j2e+'[\\s]*?'+j1e;
-        rx = new RegExp(rx, 'gm');
-        str = str.replace(rx, '');
+        // Literal string using js tags
+        str = tfn(str, j1+'=', j2, function(c){
+            return s1+c+s2;
+        });
         
         // Parse JS blocks
         str = tfn(str, j2, j1,
         function(c){
-        c = c.replace(/\n/gm, '\\n');
-        c = c.replace(/'/gm, "\\'");
-        return "'"+c+"';"});
+            c = c.replace(/\n/gm, '\\n');
+            c = c.replace(/'/gm, "\\'");
+            c = ov+"+='"+c+"';";
+            return c;
+        });
         
-        // Remove first and last tags
+        // trim trailing tags
         str = tfn(str, j1, j2,
         function(c){ return c });
         
@@ -71,14 +72,8 @@ var t2js = (function(){
         str = str+" return "+ov+";";
         str = "(function(){\n"+str+"\n})();";
         
-        // Cleanup
-        str = str.replace(/\+''/g,'');
-        str = str.replace(/;;/g,';');
-        str = str.replace(/;:/g,":");
-        str = str.replace(/;\+/g,'+');
-        str = str.replace(/';\)/g,"')");
-        
         // Return
         return str;
+        
     }
 })();
