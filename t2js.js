@@ -21,8 +21,8 @@ var t2js = (function(){
         opt = opt || {};
         opt.j1 = opt.j1 || '<?';
         opt.j2 = opt.j2 || '?>';
-        opt.s1 = opt.s1 || '{{';
-        opt.s2 = opt.s2 || '}}';
+        opt.s1 = opt.s1 || '${';
+        opt.s2 = opt.s2 || '}';
         
         // Define vars
         var j1 = opt.j1;

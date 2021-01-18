@@ -8,14 +8,19 @@ npm install t2js
 ## Example
 ```js
 var t2js = require('t2js');
-THE MEANING <?
-var x = 40+2;
-var y = !?>a fact<?
+
+var tpl = `
+THE MEANING OF LIFE IS: <?
+var x = 42;
 function meaning(n) {
-    =?>OF LIFE IS: {{n}}<?
-}
-?>{{meaning(x)}}
-<?if (true) {?>And that's {{y}}.<?}?>
+    =?>\${n}<?
+}?>\${meaning(x)}
+`;
+
+var out = t2js(tpl);
+console.log(out);
+
+console.log(eval(out));
 ```
 ### Usage
 The idea is to write the templates like PHP does, except that the reult
@@ -32,7 +37,7 @@ If a **=?>** tag is found, the content will not be appended to the global
 string, but treated as a returned value instead.
 
 If a **<?=** tag is found, the content will be concatenated to the string.
-Also, you can concatenate using the tags **{{** and **}}** (String tags);
+Also, you can concatenate using the tags **${** and **}** (String tags);
 
 The tags can be configured passing the options to the t2js function:
 ```js
@@ -40,8 +45,8 @@ The tags can be configured passing the options to the t2js function:
 t2js(tpl, {
     j1: '<?',
     j2: '?>',
-    s1: '{{',
-    s2: '}}'
+    s1: '${',
+    s2: '}'
 });
 ```
 
