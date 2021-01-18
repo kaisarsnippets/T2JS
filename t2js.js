@@ -36,6 +36,13 @@ var t2js = (function(){
         // Force trailing tags
         str = j1+j2+str+j1+j2;
         
+        // Set a literal string
+        str = tfn(str, '!'+j2, j1, function(c){
+            c = c.replace(/\n/gm, '\\n');
+            c = c.replace(/'/gm, "\\'");
+            return "'"+c+"';";
+        });
+        
         // Return interpolated string
         str = tfn(str, '='+j2, j1, function(c){
             c = c.replace(/\n/gm, '\\n');
