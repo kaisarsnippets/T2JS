@@ -43,14 +43,14 @@ var t2js = (function(){
             return "'"+c+"';";
         });
         
-        // Return interpolated string
+        // Return strings
         str = tfn(str, '='+j2, j1, function(c){
             c = c.replace(/\n/gm, '\\n');
             c = c.replace(/'/gm, "\\'");
             return "return '"+c+"';";
         });
         
-        // Literal string using js tags
+        // Concatenate strings using js tagss
         str = tfn(str, j1+'=', j2, function(c){
             return s1+c+s2;
         });
@@ -68,7 +68,7 @@ var t2js = (function(){
         str = tfn(str, j1, j2,
         function(c){ return c });
         
-        // Parse string literals
+        // Concatenate strings
         str = tfn(str, s1, s2, function(c){
         c = c.replace(/\\n/gm, "");
         c = c.replace(/\\'/gm, "'");
